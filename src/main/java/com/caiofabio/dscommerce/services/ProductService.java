@@ -3,6 +3,7 @@ package com.caiofabio.dscommerce.services;
 import com.caiofabio.dscommerce.dto.ProductDTO;
 import com.caiofabio.dscommerce.entities.Product;
 import com.caiofabio.dscommerce.repositories.ProductRepository;
+import com.caiofabio.dscommerce.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +21,12 @@ public class ProductService {
 
 
     // buscar produto por id
+    // orElseThorw o id nao exista
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Product product = repository.findById(id).get();
+        Product product = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Recurso não encontrado")
+        );
         return new ProductDTO(product);
     }
 
@@ -54,6 +58,13 @@ public class ProductService {
         copyDtoEntity(dto, entity);
         entity = repository.save(entity);
         return new ProductDTO(entity);
+    }
+
+
+    // deletar pelo id
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
 
