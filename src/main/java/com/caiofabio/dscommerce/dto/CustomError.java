@@ -2,6 +2,8 @@ package com.caiofabio.dscommerce.dto;
 
 import java.time.Instant;
 
+
+// classe feita pra costumizar o erro quando retorna o json
 public class CustomError {
 
     private Instant timestamp;
