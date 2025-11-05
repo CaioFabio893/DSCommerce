@@ -35,11 +35,20 @@ public class ProductService {
     }
 
     // buscar todos os produtos listado
+//    @Transactional(readOnly = true)
+//    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+//        Page<Product> result = repository.searchByName(name, pageable);
+//        return result.map(x -> new ProductDTO(x));
+//    }
+
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<Product> result = repository.findAll(pageable);
+    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+        Page<Product> result = repository.searchByName(name, pageable);
         return result.map(x -> new ProductDTO(x));
     }
+
+
+
 
     // inserir produtos - nome, descriçao, preço, imagem
     @Transactional
