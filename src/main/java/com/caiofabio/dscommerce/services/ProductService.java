@@ -1,6 +1,9 @@
 package com.caiofabio.dscommerce.services;
 
+import com.caiofabio.dscommerce.dto.CategoryDTO;
 import com.caiofabio.dscommerce.dto.ProductDTO;
+import com.caiofabio.dscommerce.dto.ProductMinDTO;
+import com.caiofabio.dscommerce.entities.Category;
 import com.caiofabio.dscommerce.entities.Product;
 import com.caiofabio.dscommerce.repositories.ProductRepository;
 import com.caiofabio.dscommerce.services.exceptions.DatabaseException;
@@ -34,17 +37,12 @@ public class ProductService {
         return new ProductDTO(product);
     }
 
-    // buscar todos os produtos listado
-//    @Transactional(readOnly = true)
-//    public Page<ProductDTO> findAll(String name, Pageable pageable) {
-//        Page<Product> result = repository.searchByName(name, pageable);
-//        return result.map(x -> new ProductDTO(x));
-//    }
+
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable) {
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
         Page<Product> result = repository.searchByName(name, pageable);
-        return result.map(x -> new ProductDTO(x));
+        return result.map(x -> new ProductMinDTO(x));
     }
 
 
@@ -97,6 +95,13 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+
+        entity.getCategory().clear();
+        for(CategoryDTO catDTO: dto.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDTO.getId());
+            entity.getCategory().add(cat);
+        }
     }
 
 

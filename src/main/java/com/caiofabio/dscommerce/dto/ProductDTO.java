@@ -1,8 +1,12 @@
 package com.caiofabio.dscommerce.dto;
 
+import com.caiofabio.dscommerce.entities.Category;
 import com.caiofabio.dscommerce.entities.Product;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDTO {
 
@@ -14,7 +18,6 @@ public class ProductDTO {
     @NotBlank(message = "Campo requerido")
     private String name;
 
-
     @Size(min = 10, message = "Descrição precisa ter no mínimo 10 caracteres")
     @NotBlank(message = "Campo requerido")
     private String description;
@@ -23,6 +26,9 @@ public class ProductDTO {
     private Double price;
 
     private String imgUrl;
+
+    @NotEmpty(message = "Deve ter pelo menos uma categoria")
+    private List<CategoryDTO> categories = new ArrayList<>();
 
 
     public ProductDTO(){}
@@ -42,6 +48,9 @@ public class ProductDTO {
         imgUrl = entity.getImgUrl();
         name = entity.getName();
         price = entity.getPrice();
+        for(Category cat : entity.getCategory()){
+            categories.add(new CategoryDTO(cat));
+        }
     }
 
 
@@ -63,5 +72,9 @@ public class ProductDTO {
 
     public Double getPrice() {
         return price;
+    }
+
+    public List<CategoryDTO> getCategories() {
+        return categories;
     }
 }
