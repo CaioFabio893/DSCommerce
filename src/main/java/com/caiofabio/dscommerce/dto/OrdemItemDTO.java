@@ -7,22 +7,25 @@ public class OrdemItemDTO {
     private Long productId;
     private String name;
     private Double price;
-    private Integer qunatity;
+    private Integer quantity;
+    private String imgUrl;
 
     public OrdemItemDTO(){}
 
-    public OrdemItemDTO(Long productId, String name, Double price, Integer qunatity) {
+    public OrdemItemDTO(Long productId, String name, Double price, Integer quantity, String imgUrl) {
         this.productId = productId;
         this.name = name;
         this.price = price;
-        this.qunatity = qunatity;
+        this.quantity = quantity;
+        this.imgUrl = imgUrl;
     }
 
     public OrdemItemDTO(OrderItem entity) {
         productId = entity.getProduct().getId();
         name = entity.getProduct().getName();
         price = entity.getPrice();
-        qunatity = entity.getQuantity();
+        quantity = entity.getQuantity();
+        imgUrl = entity.getProduct().getImgUrl();
     }
 
     public Long getProductId() {
@@ -37,12 +40,15 @@ public class OrdemItemDTO {
         return price;
     }
 
-    public Integer getQunatity() {
-        return qunatity;
+    public Integer getQuantity() {
+        return quantity;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
 
     public Double getSubTotal(){
-        return price * qunatity;
+        return price * quantity;
     }
 }
