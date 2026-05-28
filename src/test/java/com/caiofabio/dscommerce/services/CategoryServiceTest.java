@@ -38,7 +38,7 @@ public class CategoryServiceTest {
     }
 
     @Test
-    public void findAllShouldReturnLisstCategoryDTO(){
+    public void findAllShouldReturnListCategoryDTO(){
 
         List<CategoryDTO> result = service.findAll();
 
